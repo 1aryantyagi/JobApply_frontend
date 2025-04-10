@@ -1,18 +1,41 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Briefcase as BriefcaseSearch, ArrowRight } from 'lucide-react';
 
 export default function Home() {
-    return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-200 px-4">
-            <div className="bg-white shadow-2xl rounded-2xl p-10 max-w-md text-center">
-                <h1 className="text-3xl font-bold text-indigo-700 mb-4">Welcome to Resume Analyzer</h1>
-                <p className="text-gray-600 mb-6">Please log in to upload and analyze your resume.</p>
-                <Link
-                    to="/login"
-                    className="inline-block bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition duration-300"
-                >
-                    Login
-                </Link>
-            </div>
-        </div>
-    );
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-violet-900 px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="bg-white/10 backdrop-blur-lg shadow-2xl rounded-3xl p-12 max-w-lg text-center border border-white/20"
+      >
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.3, type: "spring" }}
+          className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-8"
+        >
+          <BriefcaseSearch className="w-10 h-10 text-white" />
+        </motion.div>
+        
+        <h1 className="text-4xl font-bold text-white mb-4">
+          AI-Powered Job Search
+        </h1>
+        <p className="text-gray-300 mb-8 text-lg">
+          Upload your resume and let our AI find the perfect job matches for you.
+        </p>
+        
+        <Link
+          to="/login"
+          className="group inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-8 py-3 rounded-full text-lg font-medium hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          Get Started
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </motion.div>
+    </div>
+  );
 }
