@@ -17,7 +17,6 @@ export default function JobResults() {
         setShowCredForm(true);
     };
 
-
     const applyToJob = async (link, credentials = null) => {
         try {
             navigate('/status', { state: { status: 'Applying...', link } });
@@ -52,6 +51,22 @@ export default function JobResults() {
         setPassword('');
     };
 
+    const JobLinksSection = ({ title, links }) => (
+        <div className="job-links-section">
+            <h4>{title}</h4>
+            {links.length === 0 ? (
+                <p>No links available</p>
+            ) : (
+                links.map((link, i) => (
+                    <div key={i} className="job-link-row">
+                        <button onClick={() => handleApplyClick(link)}>Apply</button>
+                        <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+                    </div>
+                ))
+            )}
+        </div>
+    );
+
     return (
         <div className="container">
             <h2 className="text-center">Recommended Job Roles</h2>
@@ -61,25 +76,10 @@ export default function JobResults() {
                     <div key={index} className="role-card">
                         <h3>{role.role}</h3>
 
-                        <div>
-                            <h4>LinkedIn Jobs:</h4>
-                            {role.linkedin_links.map((link, i) => (
-                                <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '8px' }}>
-                                    <button onClick={() => handleApplyClick(link)}>Apply</button>
-                                    <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div>
-                            <h4>Workday Jobs:</h4>
-                            {role.workday_links.map((link, i) => (
-                                <div key={i} style={{ display: 'flex', gap: '10px', marginBottom: '8px' }}>
-                                    <button onClick={() => handleApplyClick(link)}>Apply</button>
-                                    <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
-                                </div>
-                            ))}
-                        </div>
+                        <JobLinksSection title="LinkedIn Jobs" links={role.linkedin_links} />
+                        <JobLinksSection title="Workday Jobs" links={role.workday_links} />
+                        <JobLinksSection title="Workable Jobs" links={role.workable_links} />
+                        <JobLinksSection title="Dice Jobs" links={role.dice_links} />
                     </div>
                 ))}
             </div>
@@ -87,23 +87,25 @@ export default function JobResults() {
             {showCredForm && (
                 <div className="modal">
                     <form onSubmit={handleSubmitCredentials} className="cred-form">
-                        <h3>Enter Workday Credentials</h3>
+                        <h3>Enter Yuur Credentials</h3>
                         <input
                             type="text"
-                            placeholder="Workday Username"
+                            placeholder="Username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
                         />
                         <input
                             type="password"
-                            placeholder="Workday Password"
+                            placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <button type="submit">Submit</button>
-                        <button type="button" onClick={() => setShowCredForm(false)}>Cancel</button>
+                        <div className="form-actions">
+                            <button type="submit">Submit</button>
+                            <button type="button" onClick={() => setShowCredForm(false)}>Cancel</button>
+                        </div>
                     </form>
                 </div>
             )}
